@@ -50,8 +50,8 @@ function dramaMoviesScore(moviesArray) {
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 // function orderByYear(moviesArray) {
-//   if (moviesArray.length === 0) return 0;
-//   //   const moviesCopy = [...moviesArray];
+//   if (moviesArray.length === 0) return [];
+//   const moviesCopy = [...moviesArray];
 //   //   const moviesCopy = moviesArray.map((movie) => ({ ...movie }));
 //   //   const moviesCopy = moviesArray.slice()
 //   moviesCopy.sort((a, b) => {
@@ -63,21 +63,53 @@ function dramaMoviesScore(moviesArray) {
 //   });
 //   return moviesCopy;
 // }
+// function orderByYear(moviesArray) {
+//   return [...moviesArray].sort((a, b) => {
+//     if (a.year !== b.year) {
+//       return a.year - b.year;
+//     } else {
+//       return a.title.localeCompare(b.title);
+//     }
+//   });
+// }
 function orderByYear(moviesArray) {
   return [...moviesArray].sort((a, b) => {
-    if (a.year !== b.year) {
-      return a.year - b.year;
-    } else {
-      return a.title.localeCompare(b.title);
-    }
+    if (a.year === b.year) return a.title.localeCompare(b.title);
+    return a.year - b.year;
   });
+
+  //   a.year === b.year ? a.title.localeCompare(b.title) :( a.year - b.year)
 }
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically(moviesArray) {}
+function orderAlphabetically(moviesArray) {
+  const arrCopy = [...moviesArray];
+  const titles = arrCopy.map((movie) => movie.title);
+  titles.sort((a, b) => a.localeCompare(b));
+  return titles.slice(0, 20);
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes(moviesArray) {}
+function turnHoursToMinutes(moviesArray) {
+  return moviesArray.map((movie) => {
+    const movieCopy = { ...movie };
+    const duration = movie.duration;
+    let totalMinutes = 0;
+    const hoursMatch = duration.match(/(\d+)h/);
+    const minutesMatch = duration.match(/(\d+)min/);
+
+    if (hoursMatch) {
+      totalMinutes += parseInt(hoursMatch[1]) * 60;
+    }
+
+    if (minutesMatch) {
+      totalMinutes += parseInt(minutesMatch[1]);
+    }
+
+    movieCopy.duration = totalMinutes;
+    return movieCopy;
+  });
+}
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg(moviesArray) {}
